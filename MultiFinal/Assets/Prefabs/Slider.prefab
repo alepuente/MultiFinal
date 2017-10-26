@@ -67,6 +67,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224555168998851962}
   - component: {fileID: 114821941508270006}
+  - component: {fileID: 114142045627173844}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -135,6 +136,38 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114142045627173844
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1611180009437000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 71
+    i1: 93
+    i2: 71
+    i3: 121
+    i4: 98
+    i5: 249
+    i6: 9
+    i7: 4
+    i8: 251
+    i9: 22
+    i10: 0
+    i11: 88
+    i12: 175
+    i13: 8
+    i14: 133
+    i15: 144
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114257538068060650
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -281,7 +314,7 @@ RectTransform:
   m_GameObject: {fileID: 1611180009437000}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.54165274, y: 0.54165274, z: 0.54165274}
   m_Children:
   - {fileID: 224725705277575944}
   - {fileID: 224881233413322842}
@@ -291,8 +324,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 289, y: -101.54001}
-  m_SizeDelta: {x: 202.1, y: 57.3}
+  m_AnchoredPosition: {x: 9.2, y: 102.3}
+  m_SizeDelta: {x: 300, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224618425271349390
 RectTransform:
