@@ -19,7 +19,7 @@ public class PlayerController : NetworkBehaviour {
             }
         }
         else
-        {
+        {           
             sceneCamera = Camera.main;
             if (sceneCamera != null)
             {

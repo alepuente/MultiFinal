@@ -17,6 +17,7 @@ public class FPSController : NetworkBehaviour
     private void Start()
     {
         _rgb = GetComponent<Rigidbody>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
