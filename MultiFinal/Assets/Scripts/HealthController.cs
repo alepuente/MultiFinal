@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -6,9 +7,9 @@ using UnityEngine.UI;
 
 public class HealthController : NetworkBehaviour {
 
-    [SyncVar]
-    private float _hp;
-    public float _maxHP;
+    public const float _maxHP = 100;
+    [SyncVar(hook = "UpdateHealthBar")]
+    private float _hp = _maxHP;
 
     public GameObject healthPrefab;
     private Canvas canvas;
@@ -16,29 +17,30 @@ public class HealthController : NetworkBehaviour {
     private Slider healthSlider;
     private GameObject healthPanel;
 
-    void Start () {
-        CmdSpawnHealthBar();
-    }
-	
-	// Update is called once per frame
-	void Update () {
-
-        CmdUpdateHealthBar();
+    void Start() {
+        SpawnHealthBar();
     }
 
-    [Command]
-    void CmdUpdateHealthBar()
+    // Update is called once per frame
+    void Update() {
+        updateUI();
+    }
+
+    void updateUI()
     {
         healthSlider.value = _hp / _maxHP;
+    }
+   
+    void UpdateHealthBar(float hp)
+    {
+        _hp = hp;
         /* Vector3 worldPos = new Vector3(transform.position.x, transform.position.y + healthPanelOffset, transform.position.z);
          Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
          healthPanel.transform.position = new Vector3(screenPos.x, screenPos.y, screenPos.z);*/
     }
-
-    [Command]
-    public void CmdSpawnHealthBar()
+    
+    public void SpawnHealthBar()
     {
-        _hp = _maxHP;
         // canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         healthPanel = Instantiate(healthPrefab) as GameObject;
         //healthPanel.transform.SetParent(canvas.transform, false);
@@ -48,23 +50,21 @@ public class HealthController : NetworkBehaviour {
         healthPanel.transform.position = new Vector3(Screen.width / 2, Screen.height - healthPanel.GetComponent<RectTransform>().rect.height, 0);*/
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void GetDamage(float damage)
     {
-        if (collision.transform.tag == "Bullet")
+        if (!isServer)
         {
-            Destroy(collision.gameObject);
-            if (!isServer)
-                return;
-            _hp -= 10;
+            return;
+        }
+            _hp -= damage;
             if (_hp <= 0)
             {
                 RpcRespawn();
             }
-        }
     }
 
     [ClientRpc]
-    void RpcRespawn()
+    private void RpcRespawn()
     {
         if (isLocalPlayer)
         {

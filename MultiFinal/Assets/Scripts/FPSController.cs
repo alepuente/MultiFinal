@@ -12,7 +12,10 @@ public class FPSController : NetworkBehaviour
     private Vector3 _velocity = Vector3.zero;
     private Vector3 _rotation = Vector3.zero;
     private Vector3 _cameraRotation = Vector3.zero;
+    private Vector3 _thrusterForce = Vector3.zero;
+
     private Rigidbody _rgb;
+    public float _thrusterPower;
 
     private void Start()
     {
@@ -25,6 +28,12 @@ public class FPSController : NetworkBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
+
+        if (Input.GetButton("Jump"))
+        {
+            _thrusterForce = Vector3.up * _thrusterPower;
+        }
+        
         Vector3 _horizontal = transform.right * x;
         Vector3 _vertical = transform.forward * z;
 
@@ -33,14 +42,15 @@ public class FPSController : NetworkBehaviour
         Move();
 
         float yR = Input.GetAxisRaw("Mouse X");
-         _rotation = new Vector3(0f, yR , 0f) * _mouseSens;
+         _rotation = new Vector3(0f, yR , 0f) * _mouseSens * Time.deltaTime;
         Rotate();
 
         float xR = Input.GetAxisRaw("Mouse Y");
-        _cameraRotation = new Vector3(xR, 0f, 0f) * _mouseSens;
+        _cameraRotation = new Vector3(xR, 0f, 0f) * _mouseSens * Time.deltaTime;
 
         Rotate();
 
+       
     }
 
     public override void OnStartLocalPlayer()
@@ -63,6 +73,11 @@ public class FPSController : NetworkBehaviour
         if (_velocity != Vector3.zero)
         {
             _rgb.MovePosition(_rgb.position + _velocity * Time.fixedDeltaTime);
+        }
+
+        if (_thrusterForce != Vector3.zero)
+        {
+            _rgb.AddForce(_thrusterForce * Time.fixedDeltaTime, ForceMode.Acceleration);
         }
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour {
 
     public float _speed;
+    public float _damage;
 	// Use this for initialization
 	void Start () {
         Destroy(gameObject, 3f);
@@ -15,5 +16,14 @@ public class Bullet : MonoBehaviour {
 	void Update () {
 	}
 
-   
+    private void OnCollisionEnter(Collision collision)
+    {
+        HealthController aux = collision.gameObject.GetComponent<HealthController>();
+        if (aux != null)
+        {
+            aux.GetDamage(_damage);
+        }
+        Destroy(gameObject);
+    }
+
 }
