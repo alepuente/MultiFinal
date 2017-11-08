@@ -1,6 +1,7 @@
 ﻿
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class FPSController : NetworkBehaviour
 
@@ -16,28 +17,47 @@ public class FPSController : NetworkBehaviour
 
     private Rigidbody _rgb;
     public float _thrusterPower;
+    private float _thrusterFuel;
+    public float _maxFuel;
+
+    public float _decreaseFuel;
+    public float _increaseFuel;
+
+    public Slider _fuelSlider;
 
     private void Start()
     {
         _rgb = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
+        _thrusterFuel = _maxFuel;
     }
 
     void Update()
-    {        
+    {
+        _fuelSlider.value = _thrusterFuel / _maxFuel;
+        if (_thrusterFuel < _maxFuel)
+        {
+            _thrusterFuel += _increaseFuel * Time.deltaTime;
+        }
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-
-        if (Input.GetButton("Jump"))
-        {
-            _thrusterForce = Vector3.up * _thrusterPower;
-        }
-        
         Vector3 _horizontal = transform.right * x;
         Vector3 _vertical = transform.forward * z;
 
         _velocity = (_horizontal + _vertical).normalized * _speed;
+
+        if (Input.GetButton("Jump") && _thrusterFuel > 0)
+        {
+            Vector3 up = new Vector3(0, 1f, 0);
+            _thrusterForce = up * _thrusterPower;
+            _thrusterFuel -= _decreaseFuel * Time.deltaTime;
+        }
+        else
+        {
+            _thrusterForce = Vector3.zero;
+        }
+
 
         Move();
 
@@ -77,7 +97,7 @@ public class FPSController : NetworkBehaviour
 
         if (_thrusterForce != Vector3.zero)
         {
-            _rgb.AddForce(_thrusterForce * Time.fixedDeltaTime, ForceMode.Acceleration);
+            _rgb.AddForce(_thrusterForce, ForceMode.Acceleration);
         }
     }
 }
