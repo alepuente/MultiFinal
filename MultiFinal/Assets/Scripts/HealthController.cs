@@ -48,11 +48,6 @@ public class HealthController : NetworkBehaviour
 
     public void GetDamage(float damage)
     {
-        if (!isServer)
-        {
-            return;
-        }
-        
             _hp -= damage;
             if (_hp <= 0)
             {
@@ -67,10 +62,10 @@ public class HealthController : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            _hp = _maxHP;
             Vector3 aux = NetworkManager.singleton.startPositions[Random.Range(0, NetworkManager.singleton.startPositions.Count)].transform.position;
             Vector2 aux2 = Random.insideUnitCircle * 5;
             transform.position = aux + new Vector3(aux2.x, 0, aux2.y);
         }
+        _hp = _maxHP;
     }
 }

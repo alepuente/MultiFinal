@@ -27,13 +27,13 @@ public class FPSController : NetworkBehaviour
 
     private void Start()
     {
-        _rgb = GetComponent<Rigidbody>();
-        Cursor.lockState = CursorLockMode.Locked;
+        _rgb = GetComponent<Rigidbody>();        
         _thrusterFuel = _maxFuel;
     }
 
     void Update()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         _fuelSlider.value = _thrusterFuel / _maxFuel;
         if (_thrusterFuel < _maxFuel)
         {

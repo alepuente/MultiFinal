@@ -13,13 +13,15 @@ public class PlayerController : NetworkBehaviour {
 	void Start () {
         if (!isLocalPlayer)
         {
+            gameObject.layer = 9;
             foreach (Behaviour item in componentsToDisable)
             {
                 item.enabled = false;
             }
         }
         else
-        {           
+        {
+            gameObject.layer = 8;      
             sceneCamera = Camera.main;
             if (sceneCamera != null)
             {
