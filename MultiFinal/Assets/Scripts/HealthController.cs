@@ -21,7 +21,7 @@ public class HealthController : NetworkBehaviour
 
     void Start()
     {
-       // SpawnHealthBar();
+        // SpawnHealthBar();
     }
 
     // Update is called once per frame
@@ -46,15 +46,22 @@ public class HealthController : NetworkBehaviour
         //healthSlider = healthPanel.GetComponentInChildren<Slider>();
     }
 
-    public void GetDamage(float damage)
+    public void GetDamage(float damage, string name = "")
     {
-            _hp -= damage;
-            if (_hp <= 0)
-            {
-                RpcRespawn();
-            }
+        _hp -= damage;
 
-        
+        if (_hp > _maxHP)
+        {
+            _hp = _maxHP;
+        }
+        else if (_hp <= 0)
+        {
+            if (!isServer)
+            {
+                return;
+            }
+            RpcRespawn();
+        }
     }
 
     [ClientRpc]
