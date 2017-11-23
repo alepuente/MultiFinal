@@ -9,30 +9,44 @@ public class ShootingController : NetworkBehaviour
     public GameObject _bullet;
     public GameObject _gun;
     public float _bulletDistance;
-    [SyncVar]
+    [SyncVar(hook = "CmdChangeName")]
     public string _playerName = "";
+    public float _shootingSpeed;
+    private float timer;
+    private int bullets;
+    public int _maxBullets;
+    public Text bulletsText;
+    public float reloadTime;
+    public TextMesh nameTag;
 
     void Start()
     {
-        if (isLocalPlayer)
+        /*if (FindObjectOfType<InputField>().text != string.Empty)
         {
-            if (FindObjectOfType<InputField>().text != string.Empty)
-            {
-            CmdChangeName(FindObjectOfType<InputField>().text);
-            }
-            else
-            {
-            CmdChangeName("Unknown");
-            }
-                FindObjectOfType<InputField>().gameObject.SetActive(false);
+            GetComponent<ShootingController>().CmdChangeName(FindObjectOfType<InputField>().text);
         }
-        
+        else
+        {
+            GetComponent<ShootingController>().CmdChangeName("Unknown");
+        }*/
+        timer = _shootingSpeed;
+        bullets = _maxBullets;
     }
 
-    [Command]
+
+
+    void Reload()
+    {
+        bullets = _maxBullets;
+        timer = -reloadTime;
+    }
+
+
+    //[Command]
     public void CmdChangeName(string newName)
     {
-        RpcChangeName(newName);
+        //RpcChangeName(newName);
+        _playerName = newName;
     }
     [ClientRpc]
     public void RpcChangeName(string newName)
@@ -42,10 +56,22 @@ public class ShootingController : NetworkBehaviour
 
     void Update()
     {
-        this.GetComponentInChildren<TextMesh>().text = _playerName;
-        if (Input.GetMouseButtonDown(0))
+        timer += Time.deltaTime;
+        bulletsText.text = bullets + "/" + _maxBullets;
+        nameTag.text = _playerName;
+        if (Input.GetMouseButton(0) && timer >= _shootingSpeed)
         {
             CmdFire();
+            bullets--;
+            timer = 0f;
+            if (bullets <= 0)
+            {
+                Reload();
+            }
+        }
+        if (Input.GetKey(KeyCode.R))
+        {
+            Reload();
         }
     }
 

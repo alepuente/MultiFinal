@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class PlayerController : NetworkBehaviour {
 
@@ -10,10 +11,10 @@ public class PlayerController : NetworkBehaviour {
 
     Camera sceneCamera;
 
-	void Start () {
+	void Start () {         
         if (!isLocalPlayer)
         {
-            gameObject.layer = 9;
+            gameObject.layer = 9;            
             foreach (Behaviour item in componentsToDisable)
             {
                 item.enabled = false;

@@ -34,11 +34,7 @@ public class FPSController : NetworkBehaviour
     void Update()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        _fuelSlider.value = _thrusterFuel / _maxFuel;
-        if (_thrusterFuel < _maxFuel)
-        {
-            _thrusterFuel += _increaseFuel * Time.deltaTime;
-        }
+        _fuelSlider.value = _thrusterFuel / _maxFuel;        
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
@@ -57,6 +53,10 @@ public class FPSController : NetworkBehaviour
         {
             _thrusterForce = Vector3.zero;
         }
+            if (_thrusterFuel < _maxFuel)
+            {
+                _thrusterFuel += _increaseFuel * Time.deltaTime;
+            }
 
 
         Move();

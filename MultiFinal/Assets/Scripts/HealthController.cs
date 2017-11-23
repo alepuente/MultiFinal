@@ -18,6 +18,7 @@ public class HealthController : NetworkBehaviour
     public Slider healthSlider;
     private GameObject healthPanel;
     public Slider fuelSlider;
+    //public Text killfeed;
 
     void Start()
     {
@@ -60,15 +61,16 @@ public class HealthController : NetworkBehaviour
             {
                 return;
             }
-            RpcRespawn();
+            RpcRespawn(name);
         }
     }
 
     [ClientRpc]
-    private void RpcRespawn()
-    {
+    private void RpcRespawn(string killer)
+    {        
         if (isLocalPlayer)
         {
+            //killfeed.text = killer + " killed " + this.GetComponent<ShootingController>()._playerName;
             Vector3 aux = NetworkManager.singleton.startPositions[Random.Range(0, NetworkManager.singleton.startPositions.Count)].transform.position;
             Vector2 aux2 = Random.insideUnitCircle * 5;
             transform.position = aux + new Vector3(aux2.x, 0, aux2.y);

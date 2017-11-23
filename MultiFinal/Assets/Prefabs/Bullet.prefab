@@ -306,11 +306,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 543f0ef6a7b27974f8aa1e7ece529b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 35
+  _speed: 45
   _damage: 10
-  _radius: 3
+  _radius: 4
   _power: 10
   _explotionPrefab: {fileID: 100002, guid: f7efb0d9df2264096af57128df85dddb, type: 2}
+  _name: 
 --- !u!114 &114737320905833898
 MonoBehaviour:
   m_ObjectHideFlags: 1
